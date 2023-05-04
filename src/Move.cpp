@@ -2,15 +2,13 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-#include "square.h"
+#include "type.h"
 
 #define SIZE 11
 #define WorkerNum 2
 
 extern Square Stage[SIZE][SIZE];
 extern int Worker[2][WorkerNum];
-
-typedef enum { pEmpty, pMove, pBuild, pCrash } Pattern;
 
 bool IsNotException(int y, int x, int value) {
 	if (y < 0 || y >= SIZE) return false;
