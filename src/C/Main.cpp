@@ -5,7 +5,7 @@
 
 #include "Algorithm.cpp"
 #include "Move.cpp"
-#include "square.h"
+#include "type.h"
 
 #define SIZE 11
 #define WorkerNum 2
@@ -24,9 +24,11 @@ void Count(void) {
 	fieldNum[playerNowNum] = 0;
 	for (int y = 0; y < SIZE; y++) {
 		for (int x = 0; x < SIZE; x++) {
-			if (StageCopy[y][x] == 0)
+			if (StageCopy[y][x] == EMPTY)
 				fieldNum[playerNowNum]++;
-			else if (StageCopy[y][x] == 8)
+			else if (StageCopy[y][x] == playerNowNum + 1)
+				fieldNum[playerNowNum]++;
+			else if (StageCopy[y][x] == CASTLE)
 				fieldNum[playerNowNum] += 10;
 		}
 	}
@@ -116,8 +118,11 @@ bool CheckEmpty(int i, int j) {
 	if (StageCopy[i][j] == EMPTY) {
 		StageCopy[i][j] = PLAYER_BASE;
 		return true;
+	} else if (StageCopy[i][j] == PLAYER1 || StageCopy[i][j] == PLAYER2) {
+		StageCopy[i][j] = PLAYER_MARK;
+		return true;
 	} else if (StageCopy[i][j] == CASTLE) {
-		StageCopy[i][j] = CASTLE_BASE;
+		StageCopy[i][j] = CASTLE_MARK;
 		return true;
 	}
 	return false;

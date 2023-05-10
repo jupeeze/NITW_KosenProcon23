@@ -1,24 +1,52 @@
 {
-	"terminal.integrated.defaultProfile.windows": "PowerShell",
-	"terminal.integrated.profiles.windows": {
-		"PowerShell": {
-			"source": "PowerShell",
-			"icon": "terminal-powershell"
-		},
-		"Command Prompt": {
-			"path": [
-				"${env:windir}\\Sysnative\\cmd.exe",
-				"${env:windir}\\System32\\cmd.exe"
-			],
-			"args": [
-				"-NoExit",
-				"-Command",
-				"chcp 65001"
-			],
-			"icon": "terminal-cmd"
-		},
-		"Git Bash": {
-			"source": "Git Bash"
-		}
-	}
+    "files.associations": {
+        "iostream": "cpp",
+        "iosfwd": "cpp",
+        "vector": "cpp",
+        "utility": "cpp",
+        "cstdlib": "cpp",
+        "atomic": "cpp",
+        "bit": "cpp",
+        "cctype": "cpp",
+        "clocale": "cpp",
+        "cmath": "cpp",
+        "compare": "cpp",
+        "concepts": "cpp",
+        "cstddef": "cpp",
+        "cstdint": "cpp",
+        "cstdio": "cpp",
+        "cstring": "cpp",
+        "ctime": "cpp",
+        "cwchar": "cpp",
+        "exception": "cpp",
+        "initializer_list": "cpp",
+        "ios": "cpp",
+        "istream": "cpp",
+        "iterator": "cpp",
+        "limits": "cpp",
+        "memory": "cpp",
+        "new": "cpp",
+        "ostream": "cpp",
+        "stdexcept": "cpp",
+        "streambuf": "cpp",
+        "system_error": "cpp",
+        "tuple": "cpp",
+        "type_traits": "cpp",
+        "typeinfo": "cpp",
+        "xfacet": "cpp",
+        "xiosbase": "cpp",
+        "xlocale": "cpp",
+        "xlocinfo": "cpp",
+        "xlocnum": "cpp",
+        "xmemory": "cpp",
+        "xstddef": "cpp",
+        "xstring": "cpp",
+        "xtr1common": "cpp",
+        "xutility": "cpp",
+        "iomanip": "cpp",
+        "deque": "cpp",
+        "string": "cpp",
+        "array": "cpp",
+        "string_view": "cpp"
+    }
 }

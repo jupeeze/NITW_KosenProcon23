@@ -1,11 +1,16 @@
 #pragma once
 #include <stdbool.h>
 
+#include <algorithm>
+#include <climits>
+
 #include "Move.cpp"
-#include "square.h"
+#include "type.h"
 
 #define SIZE 11
 #define WorkerNum 2
+
+using namespace std;
 
 extern Square Stage[SIZE][SIZE];
 extern int Worker[2][WorkerNum];
