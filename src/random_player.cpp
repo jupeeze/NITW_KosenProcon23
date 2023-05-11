@@ -5,7 +5,8 @@
 
 using namespace std;
 
-RandomPlayer::RandomPlayer(Cell player) : m_player(player) {}
+RandomPlayer::RandomPlayer(Cell player)
+	: m_player(player), m_players({Player({0, 0}), Player({0, 0})}) {}
 
 void RandomPlayer::MakeMove(Board &board) const {
 	vector<pair<int, int>> emptyCells = board.GetEmptyCells();

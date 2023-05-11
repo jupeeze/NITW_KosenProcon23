@@ -2,11 +2,32 @@
 
 #include <climits>
 
+constexpr array<pair<Pattern, Point>, 17> Player::patterns = {
+	{{Pattern::MOVE, {-1, -1}},
+	 {Pattern::MOVE, {-1, +0}},
+	 {Pattern::MOVE, {-1, +1}},
+	 {Pattern::MOVE, {+0, -1}},
+	 {Pattern::MOVE, {+0, +0}},
+	 {Pattern::MOVE, {+0, +1}},
+	 {Pattern::MOVE, {+1, -1}},
+	 {Pattern::MOVE, {+1, +0}},
+	 {Pattern::MOVE, {+1, +1}},
+	 {Pattern::PLACE, {-1, +0}},
+	 {Pattern::PLACE, {+0, -1}},
+	 {Pattern::PLACE, {+0, +1}},
+	 {Pattern::PLACE, {+1, +0}},
+	 {Pattern::CRASH, {-1, +0}},
+	 {Pattern::CRASH, {+0, -1}},
+	 {Pattern::CRASH, {+0, +1}},
+	 {Pattern::CRASH, {+1, +0}}}};
+;
+
 using namespace std;
 
-MinimaxPlayer::MinimaxPlayer(Cell player) : m_player(player) {}
+MinimaxPlayer::MinimaxPlayer(Cell player)
+	: m_player(player), m_players({Player({0, 0}), Player({0, 0})}) {}
 
-void MinimaxPlayer::MakeMove(Board &board) const {
+void MinimaxPlayer::MakeMove(Board& board) const {
 	vector<pair<int, int>> emptyCells = board.GetEmptyCells();
 	vector<int> scores(emptyCells.size());
 
@@ -14,9 +35,7 @@ void MinimaxPlayer::MakeMove(Board &board) const {
 		Board newBoard(board);
 		newBoard.PlacePiece(m_player, emptyCells[i].first,
 							emptyCells[i].second);
-		scores[i] =
-			Minimax(newBoard, (m_player == Cell::PLAYER1) ? Cell::PLAYER2
-														  : Cell::PLAYER1);
+		scores[i] = Minimax(MAX_DEPTH, board, true, INT_MIN, INT_MAX);
 	}
 
 	int maxScoreIndex = 0;
@@ -34,8 +53,8 @@ void MinimaxPlayer::MakeMove(Board &board) const {
 
 int Evaluate() { return 0; }
 
-int MinimaxPlayer::minimax(int depth, Board board, bool maxflag, int alpha,
-						   int beta) {
+int MinimaxPlayer::Minimax(int depth, Board& board, bool maxflag, int alpha,
+						   int beta) const {
 	if (depth <= 0) return Evaluate();
 
 	if (maxflag) {
@@ -45,7 +64,7 @@ int MinimaxPlayer::minimax(int depth, Board board, bool maxflag, int alpha,
 			m_players[0].Work(pattern, newBoard);
 			for (auto move : Player::patterns) {
 				m_players[1].Work(pattern, newBoard);
-				int value = minimax(depth - 1, newBoard, false, alpha, beta);
+				int value = Minimax(depth - 1, newBoard, false, alpha, beta);
 				bestValue = max(bestValue, value);
 				alpha = max(alpha, bestValue);
 				if (beta <= alpha) break;
@@ -59,7 +78,7 @@ int MinimaxPlayer::minimax(int depth, Board board, bool maxflag, int alpha,
 			m_players[0].Work(pattern, newBoard);
 			for (auto move : Player::patterns) {
 				m_players[1].Work(pattern, newBoard);
-				int value = minimax(depth - 1, board, true, alpha, beta);
+				int value = Minimax(depth - 1, board, true, alpha, beta);
 				bestValue = min(bestValue, value);
 				beta = min(beta, bestValue);
 				if (beta <= alpha) break;

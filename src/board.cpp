@@ -5,6 +5,9 @@
 
 using namespace std;
 
+Cell Board::m_board[ROWS][COLS] = {};
+Cell Board::new_board[Board::ROWS][Board::COLS] = {};
+
 Board::Board() {
 	for (int row = 0; row < ROWS; row++) {
 		for (int col = 0; col < COLS; col++) {
