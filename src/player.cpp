@@ -39,7 +39,7 @@ void Player::Work(pair<Pattern, Point> pattern, Board board) const {
 	}
 }
 
-void Player::SpawnPlayer(Cell cell, Player player) {
+void Player::SpawnPlayer(Cell cell, Player& player) {
 	while (true) {
 		int row = rand() % Board::ROWS;
 		int col = rand() % Board::COLS;
