@@ -2,8 +2,14 @@
 
 #include <climits>
 
+using namespace std;
+
 constexpr array<pair<Pattern, Point>, 17> Player::patterns = {
-	{{Pattern::MOVE, {-1, -1}},
+	{{Pattern::PLACE, {-1, +0}},
+	 {Pattern::PLACE, {+0, -1}},
+	 {Pattern::PLACE, {+0, +1}},
+	 {Pattern::PLACE, {+1, +0}},
+	 {Pattern::MOVE, {-1, -1}},
 	 {Pattern::MOVE, {-1, +0}},
 	 {Pattern::MOVE, {-1, +1}},
 	 {Pattern::MOVE, {+0, -1}},
@@ -12,43 +18,38 @@ constexpr array<pair<Pattern, Point>, 17> Player::patterns = {
 	 {Pattern::MOVE, {+1, -1}},
 	 {Pattern::MOVE, {+1, +0}},
 	 {Pattern::MOVE, {+1, +1}},
-	 {Pattern::PLACE, {-1, +0}},
-	 {Pattern::PLACE, {+0, -1}},
-	 {Pattern::PLACE, {+0, +1}},
-	 {Pattern::PLACE, {+1, +0}},
 	 {Pattern::CRASH, {-1, +0}},
 	 {Pattern::CRASH, {+0, -1}},
 	 {Pattern::CRASH, {+0, +1}},
 	 {Pattern::CRASH, {+1, +0}}}};
-;
-
-using namespace std;
 
 MinimaxPlayer::MinimaxPlayer(Cell player)
 	: m_player(player), m_players({Player({0, 0}), Player({0, 0})}) {}
 
 void MinimaxPlayer::MakeMove(Board& board) const {
-	vector<pair<int, int>> emptyCells = board.GetEmptyCells();
-	vector<int> scores(emptyCells.size());
+	int bestValue = INT_MIN;
+	int alpha = INT_MIN;
+	int beta = INT_MAX;
+	pair<Pattern, Point> bestMove1, bestMove2;
 
-	for (size_t i = 0; i < emptyCells.size(); ++i) {
+	for (auto move1 : Player::patterns) {
 		Board newBoard(board);
-		newBoard.PlacePiece(m_player, emptyCells[i].first,
-							emptyCells[i].second);
-		scores[i] = Minimax(MAX_DEPTH, board, true, INT_MIN, INT_MAX);
-	}
-
-	int maxScoreIndex = 0;
-	int maxScore = INT_MIN;
-	for (size_t i = 0; i < scores.size(); ++i) {
-		if (scores[i] > maxScore) {
-			maxScore = scores[i];
-			maxScoreIndex = i;
+		m_players[0].Work(move1, newBoard);
+		for (auto move2 : Player::patterns) {
+			m_players[1].Work(move2, newBoard);
+			int value = Minimax(MAX_DEPTH - 1, newBoard, false, alpha, beta);
+			if (value > bestValue) {
+				bestValue = value;
+				bestMove1 = move1;
+				bestMove2 = move2;
+			}
+			alpha = max(alpha, bestValue);
+			if (beta <= alpha) break;
 		}
 	}
 
-	board.PlacePiece(m_player, emptyCells[maxScoreIndex].first,
-					 emptyCells[maxScoreIndex].second);
+	m_players[0].Work(bestMove1, board);
+	m_players[1].Work(bestMove2, board);
 }
 
 int Evaluate() { return 0; }

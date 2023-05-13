@@ -18,6 +18,9 @@ enum Pattern {
 
 class Player {
    public:
+	Cell m_player;
+	mutable Point m_player_seed;
+
 	Player(Point seed);
 
 	static const array<pair<Pattern, Point>, 17> patterns;
@@ -25,11 +28,10 @@ class Player {
 	void Move();
 	void Place();
 	void Crash();
-	void Work(pair<Pattern, Point> pattern, Board& board) const;
+	void Work(pair<Pattern, Point> pattern, Board board) const;
+	void SpawnPlayer(Cell cell, Player player);
 
    private:
-	Cell m_player;
-	mutable Point m_player_seed;
 	Cell GetOpponent() const;
 	pair<Pattern, Point> GetLegalMoves();
 };

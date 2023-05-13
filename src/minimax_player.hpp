@@ -5,13 +5,14 @@
 
 class MinimaxPlayer {
    public:
+	Cell m_player;
+	array<Player, Board::WORKER_NUM> m_players;
+
 	MinimaxPlayer(Cell player);
 	void MakeMove(Board& board) const;
 
    private:
-	static const int MAX_DEPTH = 10;
-	Cell m_player;
-	array<Player, Board::WORKER_NUM> m_players;
+	static const int MAX_DEPTH = 3;
 	int Minimax(int depth, Board& board, bool maxflag, int alpha,
 				int beta) const;
 };

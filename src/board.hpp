@@ -36,8 +36,7 @@ class Board {
 	static Cell m_board[ROWS][COLS];
 	static Cell new_board[ROWS][COLS];
 
-	map<Cell, array<Point, WORKER_NUM>> seed_worker;
-	const array<Cell, PLAYER_NUM> PLAYERS = {Cell::PLAYER1, Cell::PLAYER2};
+	static const array<Cell, PLAYER_NUM> PLAYERS;
 
 	Board();
 
@@ -53,7 +52,6 @@ class Board {
 
 	Cell GetPlayerWall(Cell player) const;
 
-	vector<pair<int, int>> GetEmptyCells() const;
 	void SortWorker();
 
    private:

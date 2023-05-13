@@ -1,5 +1,6 @@
 #include "board.cpp"
 #include "minimax_player.cpp"
+#include "player.cpp"
 #include "random_player.cpp"
 
 using namespace std;
@@ -8,20 +9,29 @@ int main() {
 	srand(time(NULL));
 
 	Board board;
-	MinimaxPlayer minimaxPlayer(Cell::PLAYER1);
-	RandomPlayer randomPlayer(Cell::PLAYER2);
-
 	board.Spawn();
-	board.PrintBoard();
 
+	MinimaxPlayer minimaxPlayer(Cell::PLAYER1);
+	for (Player player : minimaxPlayer.m_players)
+		player.SpawnPlayer(minimaxPlayer.m_player, player);
+	RandomPlayer randomPlayer(Cell::PLAYER2);
+	for (Player player : randomPlayer.m_players)
+		player.SpawnPlayer(randomPlayer.m_player, player);
+
+	for (Player player : randomPlayer.m_players) {
+		cout << "seed Row:" << player.m_player_seed.row << endl;
+		cout << "seed Col:" << player.m_player_seed.row << endl;
+	}
+
+	board.PrintBoard();
 	// SortWorker();
 
 	int countPlay = 0;
-	const int countPlayMax = 100;
+	const int countPlayMax = 5;
 	while (countPlay < countPlayMax) {
 		countPlay++;
 
-		minimaxPlayer.MakeMove(board);
+		// minimaxPlayer.MakeMove(board);
 		randomPlayer.MakeMove(board);
 
 		board.CallScanLineSeedFill(Cell::PLAYER1);

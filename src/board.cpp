@@ -7,6 +7,7 @@ using namespace std;
 
 Cell Board::m_board[ROWS][COLS] = {};
 Cell Board::new_board[Board::ROWS][Board::COLS] = {};
+const array<Cell, Board::PLAYER_NUM> PLAYERS = {Cell::PLAYER1, Cell::PLAYER2};
 
 Board::Board() {
 	for (int row = 0; row < ROWS; row++) {
@@ -34,21 +35,6 @@ void Board::Spawn() {
 		if (m_board[row][col] == Cell::EMPTY) {
 			m_board[row][col] = Cell::CASTLE;
 			break;
-		}
-	}
-
-	for (Cell player : PLAYERS) {
-		for (int i = 0; i < WORKER_NUM; i++) {
-			while (true) {
-				row = rand() % ROWS;
-				col = rand() % COLS;
-				if (m_board[row][col] == Cell::EMPTY) {
-					m_board[row][col] = player;
-					seed_worker[player][i] = {row, col};
-
-					break;
-				}
-			}
 		}
 	}
 }
@@ -89,8 +75,8 @@ void Board::PrintBoard() const {
 	}
 	cout << "\x1b[0m" << endl;
 
-	cout << "field1: " << count_closed.at(Cell::PLAYER1) << endl;
-	cout << "field2: " << count_closed.at(Cell::PLAYER2) << endl;
+	// cout << "field1: " << count_closed << endl;
+	// cout << "field2: " << count_closed << endl;
 }
 
 void Board::PlacePiece(Cell cell, int row, int col) {
@@ -192,18 +178,6 @@ Cell Board::GetPlayerWall(Cell player) const {
 			return Cell::EMPTY;
 			break;
 	}
-}
-
-vector<pair<int, int>> Board::GetEmptyCells() const {
-	vector<pair<int, int>> emptyCells;
-	for (int row = 0; row < ROWS; row++) {
-		for (int col = 0; col < COLS; col++) {
-			if (m_board[row][col] == Cell::EMPTY) {
-				emptyCells.emplace_back(row, col);
-			}
-		}
-	}
-	return emptyCells;
 }
 
 // void Board::SortWorker() {
