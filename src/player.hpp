@@ -29,7 +29,7 @@ class Player {
 	void Place();
 	void Crash();
 	void Work(pair<Pattern, Point> pattern, Board& board) const;
-	void SpawnPlayer(Cell cell, Player& player);
+	void SpawnPlayer(Cell cell, Player& player, Board& board);
 
    private:
 	Cell GetOpponent() const;

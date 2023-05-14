@@ -13,10 +13,10 @@ int main(void) {
 
 	MinimaxPlayer minimaxPlayer(Cell::PLAYER1);
 	for (Player& player : minimaxPlayer.m_players)
-		player.SpawnPlayer(minimaxPlayer.m_player, player);
+		player.SpawnPlayer(minimaxPlayer.m_player, player, board);
 	RandomPlayer randomPlayer(Cell::PLAYER2);
 	for (Player& player : randomPlayer.m_players)
-		player.SpawnPlayer(randomPlayer.m_player, player);
+		player.SpawnPlayer(randomPlayer.m_player, player, board);
 
 	board.PrintBoard();
 	// SortWorker();

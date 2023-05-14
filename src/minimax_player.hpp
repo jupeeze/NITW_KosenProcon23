@@ -9,7 +9,7 @@ class MinimaxPlayer {
 	array<Player, Board::WORKER_NUM> m_players;
 
 	MinimaxPlayer(Cell player);
-	void MakeMove(Board board) const;
+	void MakeMove(Board& board) const;
 
    private:
 	static const int MAX_DEPTH = 5;

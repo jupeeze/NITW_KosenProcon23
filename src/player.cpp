@@ -40,12 +40,12 @@ void Player::Work(pair<Pattern, Point> pattern, Board& board) const {
 	}
 }
 
-void Player::SpawnPlayer(Cell cell, Player& player) {
+void Player::SpawnPlayer(Cell cell, Player& player, Board& board) {
 	while (true) {
 		int row = rand() % Board::ROWS;
 		int col = rand() % Board::COLS;
-		if (Board::m_board[row][col] == Cell::EMPTY) {
-			Board::m_board[row][col] = cell;
+		if (board.m_board[row][col] == Cell::EMPTY) {
+			board.m_board[row][col] = cell;
 			player.m_player_seed = {row, col};
 			break;
 		}

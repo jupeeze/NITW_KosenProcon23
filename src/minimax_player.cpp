@@ -28,7 +28,7 @@ MinimaxPlayer::MinimaxPlayer(Cell player)
 	: m_player(player),
 	  m_players{Player({0, 0}, m_player), Player({0, 0}, m_player)} {}
 
-void MinimaxPlayer::MakeMove(Board board) const {
+void MinimaxPlayer::MakeMove(Board& board) const {
 	int bestValue = INT_MIN;
 	int alpha = INT_MIN;
 	int beta = INT_MAX;

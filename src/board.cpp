@@ -5,8 +5,6 @@
 
 using namespace std;
 
-Cell Board::m_board[ROWS][COLS] = {};
-Cell Board::new_board[Board::ROWS][Board::COLS] = {};
 const array<Cell, Board::PLAYER_NUM> PLAYERS = {Cell::PLAYER1, Cell::PLAYER2};
 
 Board::Board() {

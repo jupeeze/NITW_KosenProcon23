@@ -33,8 +33,8 @@ class Board {
 	static const int PLAYER_NUM = 2;
 	static const int WORKER_NUM = 2;
 
-	static Cell m_board[ROWS][COLS];
-	static Cell new_board[ROWS][COLS];
+	Cell m_board[ROWS][COLS] = {};
+	Cell new_board[ROWS][COLS] = {};
 
 	static const array<Cell, PLAYER_NUM> PLAYERS;
 
@@ -48,7 +48,7 @@ class Board {
 	void CallScanLineSeedFill(Cell player);
 	vector<int> GetLegalMoves(array<Point, WORKER_NUM> seeds);
 
-	static bool IsOccupied(int row, int col);
+	bool IsOccupied(int row, int col);
 
 	Cell GetPlayerWall(Cell player) const;
 
