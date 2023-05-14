@@ -54,11 +54,19 @@ void MinimaxPlayer::MakeMove(Board& board) const {
 	m_players[1].Work(bestPattern2, board);
 }
 
-int Evaluate() { return 0; }
+int MinimaxPlayer::Evaluate(Board board) const {
+	board.CallScanLineSeedFill(m_player);
+	board.Count(m_player);
+	if (board.count_closed[m_player] > 0) {
+		printf("%d", board.count_closed[m_player]);
+		return board.count_closed[m_player];
+	}
+	return 0;
+}
 
 int MinimaxPlayer::Minimax(int depth, Board board, bool maxflag, int alpha,
 						   int beta) const {
-	if (depth <= 0) return Evaluate();
+	if (depth <= 0) return Evaluate(board);
 
 	if (maxflag) {
 		int bestValue = INT_MIN;

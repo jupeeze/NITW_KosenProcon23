@@ -36,6 +36,7 @@ class Board {
 	Cell m_board[ROWS][COLS] = {};
 	Cell new_board[ROWS][COLS] = {};
 
+	map<Cell, int> count_closed;
 	static const array<Cell, PLAYER_NUM> PLAYERS;
 
 	Board();
@@ -55,8 +56,6 @@ class Board {
 	void SortWorker();
 
    private:
-	map<Cell, int> count_closed;
-
 	void CopyBoard();
 	bool CouldFillCell(Point p);
 };

@@ -13,6 +13,7 @@ class MinimaxPlayer {
 
    private:
 	static const int MAX_DEPTH = 5;
+	int Evaluate(Board board) const;
 	int Minimax(int depth, Board board, bool maxflag, int alpha,
 				int beta) const;
 };
