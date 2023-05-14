@@ -5,7 +5,7 @@
 
 using namespace std;
 
-int main() {
+int main(void) {
 	srand(time(NULL));
 
 	Board board;
@@ -18,11 +18,6 @@ int main() {
 	for (Player& player : randomPlayer.m_players)
 		player.SpawnPlayer(randomPlayer.m_player, player);
 
-	for (Player& player : randomPlayer.m_players) {
-		cout << "seed Row:" << player.m_player_seed.row + 1 << endl;
-		cout << "seed Col:" << player.m_player_seed.col + 1 << endl;
-	}
-
 	board.PrintBoard();
 	// SortWorker();
 
@@ -31,7 +26,7 @@ int main() {
 	while (countPlay < countPlayMax) {
 		countPlay++;
 
-		// minimaxPlayer.MakeMove(board);
+		minimaxPlayer.MakeMove(board);
 		randomPlayer.MakeMove(board);
 
 		board.CallScanLineSeedFill(Cell::PLAYER1);

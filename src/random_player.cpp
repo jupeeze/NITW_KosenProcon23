@@ -6,7 +6,8 @@
 using namespace std;
 
 RandomPlayer::RandomPlayer(Cell player)
-	: m_player(player), m_players({Player({0, 0}), Player({0, 0})}) {}
+	: m_player(player),
+	  m_players{Player({0, 0}, m_player), Player({0, 0}, m_player)} {}
 
 void RandomPlayer::MakeMove(Board &board) const {
 	int randomIndex = rand() % Player::patterns.size();

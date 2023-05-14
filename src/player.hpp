@@ -21,14 +21,14 @@ class Player {
 	Cell m_player;
 	mutable Point m_player_seed;
 
-	Player(Point seed);
+	Player(Point seed, Cell player);
 
-	static const array<pair<Pattern, Point>, 17> patterns;
+	static const array<pair<Pattern, Point>, 4> patterns;
 
 	void Move();
 	void Place();
 	void Crash();
-	void Work(pair<Pattern, Point> pattern, Board board) const;
+	void Work(pair<Pattern, Point> pattern, Board& board) const;
 	void SpawnPlayer(Cell cell, Player& player);
 
    private:

@@ -5,7 +5,8 @@
 
 using namespace std;
 
-Player::Player(Point seed) : m_player_seed(seed) {}
+Player::Player(Point seed, Cell player)
+	: m_player_seed(seed), m_player(player) {}
 
 bool IsInRange(int row, int col) {
 	if (row < 0 || row >= Board::ROWS) return false;
@@ -13,7 +14,7 @@ bool IsInRange(int row, int col) {
 	return true;
 }
 
-void Player::Work(pair<Pattern, Point> pattern, Board board) const {
+void Player::Work(pair<Pattern, Point> pattern, Board& board) const {
 	Cell wall;
 	int row = m_player_seed.row + pattern.second.row;
 	int col = m_player_seed.col + pattern.second.col;
@@ -48,6 +49,8 @@ void Player::SpawnPlayer(Cell cell, Player& player) {
 			player.m_player_seed = {row, col};
 			break;
 		}
+		cout << "seed Row:" << player.m_player_seed.row + 1 << endl;
+		cout << "seed Col:" << player.m_player_seed.col + 1 << endl;
 	}
 }
 
