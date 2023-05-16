@@ -43,8 +43,8 @@ class Board {
 
 	void Spawn();
 	void Count(Cell player);
-	void PrintBoard() const;
 	void PlacePiece(Cell cell, int row, int col);
+	void PrintBoard(Cell board[Board::ROWS][Board::COLS]) const;
 	void ScanLineSeedFill(Point seed, Cell player);
 	void CallScanLineSeedFill(Cell player);
 	vector<int> GetLegalMoves(array<Point, WORKER_NUM> seeds);

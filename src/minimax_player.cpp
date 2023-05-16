@@ -24,9 +24,10 @@ constexpr array<pair<Pattern, Point>, 4> Player::patterns = {{
 	//  {Pattern::CRASH, {+1, +0}}
 }};
 
-MinimaxPlayer::MinimaxPlayer(Cell player)
+MinimaxPlayer::MinimaxPlayer(Cell player, RandomPlayer* opponent)
 	: m_player(player),
-	  m_players{Player({0, 0}, m_player), Player({0, 0}, m_player)} {}
+	  m_players{Player({0, 0}, m_player), Player({0, 0}, m_player)},
+	  m_opponent(opponent) {}
 
 void MinimaxPlayer::MakeMove(Board& board) const {
 	int bestValue = INT_MIN;
@@ -66,7 +67,11 @@ int MinimaxPlayer::Evaluate(Board board) const {
 
 int MinimaxPlayer::Minimax(int depth, Board board, bool maxflag, int alpha,
 						   int beta) const {
-	if (depth <= 0) return Evaluate(board);
+	board.PrintBoard(board.m_board);
+
+	if (depth <= 0) {
+		return Evaluate(board);
+	}
 
 	if (maxflag) {
 		int bestValue = INT_MIN;
@@ -86,9 +91,9 @@ int MinimaxPlayer::Minimax(int depth, Board board, bool maxflag, int alpha,
 		int bestValue = INT_MAX;
 		for (auto pattern1 : Player::patterns) {
 			Board newBoard(board);
-			m_players[0].Work(pattern1, newBoard);
+			m_opponent->m_players[0].Work(pattern1, newBoard);
 			for (auto pattern2 : Player::patterns) {
-				m_players[1].Work(pattern2, newBoard);
+				m_opponent->m_players[1].Work(pattern2, newBoard);
 				int value = Minimax(depth - 1, board, true, alpha, beta);
 				bestValue = min(bestValue, value);
 				beta = min(beta, bestValue);

@@ -11,14 +11,14 @@ int main(void) {
 	Board board;
 	board.Spawn();
 
-	MinimaxPlayer minimaxPlayer(Cell::PLAYER1);
-	for (Player& player : minimaxPlayer.m_players)
-		player.SpawnPlayer(minimaxPlayer.m_player, player, board);
 	RandomPlayer randomPlayer(Cell::PLAYER2);
 	for (Player& player : randomPlayer.m_players)
 		player.SpawnPlayer(randomPlayer.m_player, player, board);
+	MinimaxPlayer minimaxPlayer(Cell::PLAYER1, &randomPlayer);
+	for (Player& player : minimaxPlayer.m_players)
+		player.SpawnPlayer(minimaxPlayer.m_player, player, board);
 
-	board.PrintBoard();
+	board.PrintBoard(board.m_board);
 	// SortWorker();
 
 	int countPlay = 0;
@@ -35,7 +35,7 @@ int main(void) {
 		board.CallScanLineSeedFill(Cell::PLAYER2);
 		board.Count(Cell::PLAYER2);
 
-		board.PrintBoard();
+		board.PrintBoard(board.m_board);
 
 		// SortWorker();
 	}

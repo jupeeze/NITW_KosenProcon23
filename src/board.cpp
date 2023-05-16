@@ -37,7 +37,7 @@ void Board::Spawn() {
 	}
 }
 
-void Board::PrintBoard() const {
+void Board::PrintBoard(Cell board[Board::ROWS][Board::COLS]) const {
 	cout << endl;
 	cout << "  | 1 2 3 4 5 6 7 8 9 0 1 " << endl;
 	cout << "--+---------------------- " << endl;
@@ -45,36 +45,37 @@ void Board::PrintBoard() const {
 	for (int row = 0; row < ROWS; row++) {
 		cout << setw(2) << row + 1 << "| ";
 		for (int col = 0; col < COLS; col++) {
-			switch (m_board[row][col]) {
-				case Cell::EMPTY:
-					cout << "\x1b[49m･ ";
-					break;
-				case Cell::PLAYER1:
-					cout << "\x1b[41m# ";
-					break;
-				case Cell::PLAYER2:
-					cout << "\x1b[44m# ";
-					break;
-				case Cell::PLAYER1_WALL:
-					cout << "\x1b[41m･ ";
-					break;
-				case Cell::PLAYER2_WALL:
-					cout << "\x1b[44m･ ";
-					break;
-				case Cell::POND:
-					cout << "\x1b[46m･ ";
-					break;
-				case Cell::CASTLE:
-					cout << "\x1b[47m･ ";
-					break;
-			}
+			if (board[row][col] == Cell::EMPTY)
+				cout << "  ";
+			else
+				cout << static_cast<int>(board[row][col]) << " ";
+			// switch (board[row][col]) {
+			// 	case Cell::EMPTY:
+			// 		cout << "\x1b[49m･ ";
+			// 		break;
+			// 	case Cell::PLAYER1:
+			// 		cout << "\x1b[41m# ";
+			// 		break;
+			// 	case Cell::PLAYER2:
+			// 		cout << "\x1b[44m# ";
+			// 		break;
+			// 	case Cell::PLAYER1_WALL:
+			// 		cout << "\x1b[41m･ ";
+			// 		break;
+			// 	case Cell::PLAYER2_WALL:
+			// 		cout << "\x1b[44m･ ";
+			// 		break;
+			// 	case Cell::POND:
+			// 		cout << "\x1b[46m･ ";
+			// 		break;
+			// 	case Cell::CASTLE:
+			// 		cout << "\x1b[47m･ ";
+			// 		break;
+			// }
 		}
-		cout << "\x1b[0m" << endl;
+		cout << "" << endl;
 	}
-	cout << "\x1b[0m" << endl;
-
-	// cout << "field1: " << count_closed << endl;
-	// cout << "field2: " << count_closed << endl;
+	cout << "" << endl;
 }
 
 void Board::PlacePiece(Cell cell, int row, int col) {
