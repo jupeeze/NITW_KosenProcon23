@@ -43,9 +43,10 @@ class Board {
 
 	void Spawn();
 	void Count(Cell player);
+	void CopyBoard(Cell board[Board::ROWS][Board::COLS]);
 	void PlacePiece(Cell cell, int row, int col);
 	void PrintBoard(Cell board[Board::ROWS][Board::COLS]) const;
-	void ScanLineSeedFill(Point seed, Cell player);
+	void CallScanAllFill(Cell player);
 	void CallScanLineSeedFill(Cell player);
 	vector<int> GetLegalMoves(array<Point, WORKER_NUM> seeds);
 
@@ -56,6 +57,7 @@ class Board {
 	void SortWorker();
 
    private:
-	void CopyBoard();
-	bool CouldFillCell(Point p);
+	bool CouldFillCell(Point p, Cell player);
+	void ScanAllFill(Point p, Cell player);
+	void ScanLineSeedFill(Point seed, Cell player);
 };

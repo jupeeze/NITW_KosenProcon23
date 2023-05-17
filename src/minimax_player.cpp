@@ -41,6 +41,7 @@ void MinimaxPlayer::MakeMove(Board& board) const {
 		for (auto pattern2 : Player::patterns) {
 			m_players[1].Work(pattern2, newBoard);
 			int value = Minimax(MAX_DEPTH - 1, newBoard, false, alpha, beta);
+			board.CopyBoard(newBoard.m_board);
 			if (value > bestValue) {
 				bestValue = value;
 				bestPattern1 = pattern1;
@@ -49,6 +50,7 @@ void MinimaxPlayer::MakeMove(Board& board) const {
 			alpha = max(alpha, bestValue);
 			if (beta <= alpha) break;
 		}
+		board.CopyBoard(newBoard.m_board);
 	}
 
 	m_players[0].Work(bestPattern1, board);
@@ -56,20 +58,21 @@ void MinimaxPlayer::MakeMove(Board& board) const {
 }
 
 int MinimaxPlayer::Evaluate(Board board) const {
-	board.CallScanLineSeedFill(m_player);
+	board.CallScanAllFill(m_player);
 	board.Count(m_player);
 	if (board.count_closed[m_player] > 0) {
-		printf("%d", board.count_closed[m_player]);
-		return board.count_closed[m_player];
+		board.PrintBoard(board.new_board);
+		cout << board.count_closed[m_player] << endl;
 	}
-	return 0;
+	return board.count_closed[m_player];
 }
 
 int MinimaxPlayer::Minimax(int depth, Board board, bool maxflag, int alpha,
 						   int beta) const {
-	board.PrintBoard(board.m_board);
+	// board.PrintBoard(board.m_board);
 
 	if (depth <= 0) {
+		// cout << "depth: 0" << endl << endl;
 		return Evaluate(board);
 	}
 
@@ -81,10 +84,12 @@ int MinimaxPlayer::Minimax(int depth, Board board, bool maxflag, int alpha,
 			for (auto pattern2 : Player::patterns) {
 				m_players[1].Work(pattern2, newBoard);
 				int value = Minimax(depth - 1, newBoard, false, alpha, beta);
+				board.CopyBoard(newBoard.m_board);
 				bestValue = max(bestValue, value);
 				alpha = max(alpha, bestValue);
 				if (beta <= alpha) break;
 			}
+			board.CopyBoard(newBoard.m_board);
 		}
 		return bestValue;
 	} else {
@@ -94,11 +99,13 @@ int MinimaxPlayer::Minimax(int depth, Board board, bool maxflag, int alpha,
 			m_opponent->m_players[0].Work(pattern1, newBoard);
 			for (auto pattern2 : Player::patterns) {
 				m_opponent->m_players[1].Work(pattern2, newBoard);
-				int value = Minimax(depth - 1, board, true, alpha, beta);
+				int value = Minimax(depth - 1, newBoard, true, alpha, beta);
+				board.CopyBoard(newBoard.m_board);
 				bestValue = min(bestValue, value);
 				beta = min(beta, bestValue);
 				if (beta <= alpha) break;
 			}
+			board.CopyBoard(newBoard.m_board);
 		}
 		return bestValue;
 	}
