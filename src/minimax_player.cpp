@@ -35,10 +35,10 @@ void MinimaxPlayer::MakeMove(Board& board) const {
 	int beta = INT_MAX;
 	pair<Pattern, Point> bestPattern1, bestPattern2;
 
-	for (auto pattern1 : Player::patterns) {
+	for (auto pattern1 : m_players[0].GetLegalMoves(board)) {
 		Board newBoard(board);
 		m_players[0].Work(pattern1, newBoard);
-		for (auto pattern2 : Player::patterns) {
+		for (auto pattern2 : m_players[1].GetLegalMoves(newBoard)) {
 			m_players[1].Work(pattern2, newBoard);
 			int value = Minimax(MAX_DEPTH - 1, newBoard, false, alpha, beta);
 			board.CopyBoard(newBoard.m_board);
@@ -50,7 +50,6 @@ void MinimaxPlayer::MakeMove(Board& board) const {
 			alpha = max(alpha, bestValue);
 			if (beta <= alpha) break;
 		}
-		board.CopyBoard(newBoard.m_board);
 	}
 
 	m_players[0].Work(bestPattern1, board);
@@ -69,19 +68,18 @@ int MinimaxPlayer::Evaluate(Board board) const {
 
 int MinimaxPlayer::Minimax(int depth, Board board, bool maxflag, int alpha,
 						   int beta) const {
-	// board.PrintBoard(board.m_board);
-
 	if (depth <= 0) {
+		// board.PrintBoard(board.m_board);
 		// cout << "depth: 0" << endl << endl;
 		return Evaluate(board);
 	}
 
 	if (maxflag) {
 		int bestValue = INT_MIN;
-		for (auto pattern1 : Player::patterns) {
+		for (auto pattern1 : m_players[0].GetLegalMoves(board)) {
 			Board newBoard(board);
 			m_players[0].Work(pattern1, newBoard);
-			for (auto pattern2 : Player::patterns) {
+			for (auto pattern2 : m_players[0].GetLegalMoves(newBoard)) {
 				m_players[1].Work(pattern2, newBoard);
 				int value = Minimax(depth - 1, newBoard, false, alpha, beta);
 				board.CopyBoard(newBoard.m_board);
@@ -89,15 +87,15 @@ int MinimaxPlayer::Minimax(int depth, Board board, bool maxflag, int alpha,
 				alpha = max(alpha, bestValue);
 				if (beta <= alpha) break;
 			}
-			board.CopyBoard(newBoard.m_board);
 		}
 		return bestValue;
 	} else {
 		int bestValue = INT_MAX;
-		for (auto pattern1 : Player::patterns) {
+		for (auto pattern1 : m_opponent->m_players[0].GetLegalMoves(board)) {
 			Board newBoard(board);
 			m_opponent->m_players[0].Work(pattern1, newBoard);
-			for (auto pattern2 : Player::patterns) {
+			for (auto pattern2 :
+				 m_opponent->m_players[1].GetLegalMoves(newBoard)) {
 				m_opponent->m_players[1].Work(pattern2, newBoard);
 				int value = Minimax(depth - 1, newBoard, true, alpha, beta);
 				board.CopyBoard(newBoard.m_board);
@@ -105,7 +103,6 @@ int MinimaxPlayer::Minimax(int depth, Board board, bool maxflag, int alpha,
 				beta = min(beta, bestValue);
 				if (beta <= alpha) break;
 			}
-			board.CopyBoard(newBoard.m_board);
 		}
 		return bestValue;
 	}

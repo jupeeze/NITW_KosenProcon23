@@ -19,7 +19,8 @@ int main(void) {
 		player.SpawnPlayer(minimaxPlayer.m_player, player, board);
 
 	board.PrintBoard(board.m_board);
-	// SortWorker();
+	// Player::SortWorker(randomPlayer.m_players);
+	// Player::SortWorker(minimaxPlayer.m_players);
 
 	int countPlay = 0;
 	const int countPlayMax = 5;
@@ -36,8 +37,6 @@ int main(void) {
 		board.Count(Cell::PLAYER2);
 
 		board.PrintBoard(board.m_board);
-
-		// SortWorker();
 	}
 
 	return 0;

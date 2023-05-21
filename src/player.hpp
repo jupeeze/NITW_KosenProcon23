@@ -25,13 +25,11 @@ class Player {
 
 	static const array<pair<Pattern, Point>, 4> patterns;
 
-	void Move();
-	void Place();
-	void Crash();
 	void Work(pair<Pattern, Point> pattern, Board& board) const;
 	void SpawnPlayer(Cell cell, Player& player, Board& board);
+	vector<pair<Pattern, Point>> GetLegalMoves(Board board) const;
+	static void SortWorker(array<Player, Board::WORKER_NUM> players);
 
    private:
 	Cell GetOpponent() const;
-	pair<Pattern, Point> GetLegalMoves();
 };

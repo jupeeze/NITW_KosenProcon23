@@ -8,17 +8,11 @@ using namespace std;
 Player::Player(Point seed, Cell player)
 	: m_player_seed(seed), m_player(player) {}
 
-bool IsInRange(int row, int col) {
-	if (row < 0 || row >= Board::ROWS) return false;
-	if (col < 0 || col >= Board::COLS) return false;
-	return true;
-}
-
 void Player::Work(pair<Pattern, Point> pattern, Board& board) const {
 	Cell wall;
 	int row = m_player_seed.row + pattern.second.row;
 	int col = m_player_seed.col + pattern.second.col;
-	if (!IsInRange(row, col)) return;
+	if (!board.IsInRange(row, col)) return;
 
 	switch (pattern.first) {
 		case Pattern::NONE:
@@ -52,6 +46,46 @@ void Player::SpawnPlayer(Cell cell, Player& player, Board& board) {
 		cout << "seed Row:" << player.m_player_seed.row + 1 << endl;
 		cout << "seed Col:" << player.m_player_seed.col + 1 << endl;
 	}
+}
+
+vector<pair<Pattern, Point>> Player::GetLegalMoves(Board board) const {
+	vector<pair<Pattern, Point>> moves;
+	int delta[] = {-1, 0, 1};
+	for (int row = 0; row < 3; row++) {
+		for (int col = 0; col < 3; col++) {
+			if ((row == 0 && col == 1) ||
+				(row == 1 && (col == 0 || col == 2)) ||
+				(row == 2 && col == 1)) {
+				if (board.m_board[m_player_seed.row + delta[row]]
+								 [m_player_seed.col + delta[col]] ==
+					Cell::EMPTY) {
+					moves.push_back(
+						{Pattern::PLACE, Point{delta[row], delta[col]}});
+				}
+				if (board.m_board[m_player_seed.row + delta[row]]
+								 [m_player_seed.col + delta[col]] ==
+						Cell::PLAYER1_WALL ||
+					board.m_board[m_player_seed.row + delta[row]]
+								 [m_player_seed.col + delta[col]] ==
+						Cell::PLAYER2_WALL) {
+					moves.push_back(
+						{Pattern::CRASH, Point{delta[row], delta[col]}});
+				}
+			}
+			if (board.m_board[m_player_seed.row + delta[row]]
+							 [m_player_seed.col + delta[col]] == Cell::EMPTY) {
+				moves.push_back({Pattern::MOVE, Point{delta[row], delta[col]}});
+			}
+		}
+	}
+	return moves;
+}
+
+void Player::SortWorker(array<Player, Board::WORKER_NUM> players) {
+	for (int i = 0; i < Board::WORKER_NUM; i++)
+		for (int j = i + 1; j < Board::WORKER_NUM; j++)
+			if (players[i].m_player_seed.row > players[j].m_player_seed.row)
+				swap(players[i], players[j]);
 }
 
 Cell Player::GetOpponent() const {

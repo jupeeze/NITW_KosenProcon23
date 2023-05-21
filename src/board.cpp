@@ -15,6 +15,12 @@ Board::Board() {
 	}
 }
 
+bool Board::IsInRange(int row, int col) const {
+	if (row < 0 || row >= Board::ROWS) return false;
+	if (col < 0 || col >= Board::COLS) return false;
+	return true;
+}
+
 void Board::Spawn() {
 	int row, col;
 
@@ -186,10 +192,9 @@ void Board::ScanAllFill(Point p, Cell player) {
 
 	if (CouldFillCell(p, player)) {
 		for (int i = 0; i < 4; i++) {
-			p = {p.col + dx[i], p.row + dy[i]};
-			if (p.col < 0 || p.col >= COLS || p.row < 0 || p.row >= ROWS)
-				continue;
-			ScanAllFill(p, player);
+			Point seed = {p.row + dx[i], p.col + dy[i]};
+			if (!IsInRange(seed.row, seed.col)) continue;
+			ScanAllFill(seed, player);
 		}
 	}
 }
@@ -225,10 +230,3 @@ void Board::CallScanAllFill(Cell player) {
 Cell GetOpponent(Cell player) {
 	return (player == Cell::PLAYER1) ? Cell::PLAYER2 : Cell::PLAYER1;
 }
-
-// void Board::SortWorker() {
-// 	for (int i = 0; i < WORKER_NUM; i++)
-// 		for (int j = i + 1; j < WORKER_NUM; j++)
-// 			if (seed_worker[m_player][i].row > seed_worker[m_player][j].row)
-// 				swap(seed_worker[m_player][i], seed_worker[m_player][j]);
-// }

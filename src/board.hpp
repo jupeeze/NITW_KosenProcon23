@@ -48,13 +48,11 @@ class Board {
 	void PrintBoard(Cell board[Board::ROWS][Board::COLS]) const;
 	void CallScanAllFill(Cell player);
 	void CallScanLineSeedFill(Cell player);
-	vector<int> GetLegalMoves(array<Point, WORKER_NUM> seeds);
 
 	bool IsOccupied(int row, int col);
+	bool IsInRange(int row, int col) const;
 
 	Cell GetPlayerWall(Cell player) const;
-
-	void SortWorker();
 
    private:
 	bool CouldFillCell(Point p, Cell player);
